@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        </title>
+        <meta charset="utf-8" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+        <link href="./bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="./bootstrap/jquery-2.2.4.js" type="text/javascript">
+        </script>
+        <script src="./bootstrap/jquery.form.js" type="text/javascript">
+        </script>
+        <script src="./bootstrap/dist/js/bootstrap.min.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <form action="" method="POST" role="form">
+                    <legend>
+                    </legend>
+                    <div class="form-group">
+                        <label for="">
+                            歌名
+                        </label>
+                        <input class="form-control" id="" name="name" placeholder="Input field" type="text"/>
+                    </div>
+                    <button class="btn btn-primary" type="submit">
+                        Submit
+                    </button>
+                </form>
+            </div>
+            <div class="music">
+                <!-- <audio controls="controls" height="100" style="display: none" width="100">
+                    <source src="" type="audio/mp3">
+                    </source>
+                    <embed height="100" src="" width="100">
+                    </embed>
+                </audio> -->
+            </div>
+        </div>
+    </body>
+</html>
+<script type="text/javascript">
+    $('form').submit(function() {
+        $(this).ajaxSubmit({
+            url:'./index.php',
+            type:'post',
+            dataType:'json',
+            success:function(musics){
+                if(musics==null){
+                    return ;
+                }
+                var obj=$('.music');
+                $.each(musics, function(i, music) {
+                    if(i>4){
+                        return ;
+                    }
+                    var html=music['name']+'<br>';
+                    html+='<audio controls="controls" height="100" width="100">';
+                    html+='<source src="'+music['music']+'" type="audio/mp3">';
+                    html+='</source>';
+                    html+='<embed height="100" src="'+music['music']+'" width="100">';
+                    html+='</embed>';
+                    html+='</audio><br>';
+                    obj.append(html);
+                });
+            }
+        });
+        return false;
+    });
+</script>
